@@ -138,7 +138,6 @@ const integrationSchema = new Schema<IIntegration>(
       type: String,
       enum: ['active', 'beta', 'deprecated', 'coming-soon'],
       default: 'active',
-      index: true,
     },
     // Complexity level
     complexity: {

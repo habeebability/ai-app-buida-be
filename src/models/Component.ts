@@ -141,7 +141,6 @@ const componentSchema = new Schema<IComponent>(
       type: String,
       enum: ['active', 'deprecated', 'beta'],
       default: 'active',
-      index: true,
     },
     // Performance metrics
     performance: {

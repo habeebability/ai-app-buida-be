@@ -49,7 +49,6 @@ const chatSchema = new Schema<IChat>(
     projectId: {
       type: Schema.Types.ObjectId,
       ref: 'Project',
-      index: true,
     },
     title: {
       type: String,
@@ -63,7 +62,6 @@ const chatSchema = new Schema<IChat>(
       type: String,
       enum: ['active', 'archived', 'completed'],
       default: 'active',
-      index: true,
     },
     // Context for maintaining conversation state
     context: {
