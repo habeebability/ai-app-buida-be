@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: ai-app-builder-backend
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: starter # or 'free' for free tier
+    region: oregon # choose your preferred region
+    branch: main
+    healthCheckPath: /api/health # adjust if you have a health endpoint
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: MONGODB_URI
+        sync: false # will be set manually in dashboard
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_REFRESH_SECRET
+        sync: false
+      - key: SESSION_SECRET
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: FRONTEND_URL
+        value: https://your-frontend-domain.com # update with your frontend URL
+      # Add other environment variables as needed
+    buildFilter:
+      paths:
+        - "**"
+      ignoredPaths:
+        - "node_modules/**"
