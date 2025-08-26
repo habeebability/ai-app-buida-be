@@ -473,6 +473,8 @@ export const googleAuth = passport.authenticate('google', {
 // @route   GET /api/auth/google/callback
 // @access  Public
 export const googleAuthCallback = (req: Request, res: Response): void => {
+  const frontendUrl = process.env.FRONTEND_URL || (process.env.NODE_ENV === 'production' ? 'https://app-buida-fe.vercel.app' : 'http://localhost:3000');
+  
   passport.authenticate('google', { session: false }, (err: any, user: any, info: any) => {
     if (err) {
       logger.error('Google OAuth error:', {
@@ -481,8 +483,6 @@ export const googleAuthCallback = (req: Request, res: Response): void => {
         userAgent: req.get('User-Agent'),
         ip: req.ip,
       });
-
-      const frontendUrl = process.env.FRONTEND_URL || (process.env.NODE_ENV === 'production' ? 'https://app-buida-fe.vercel.app' : 'http://localhost:3000');
       
       // Handle specific OAuth errors
       if (err.message?.includes('access_denied')) {
@@ -526,7 +526,6 @@ export const googleAuthCallback = (req: Request, res: Response): void => {
     });
 
     // Redirect to auth callback (frontend will handle token storage and redirect)
-    const frontendUrl = process.env.FRONTEND_URL || (process.env.NODE_ENV === 'production' ? 'https://app-buida-fe.vercel.app' : 'http://localhost:3000');
     res.redirect(
       `${frontendUrl}/auth/callback?accessToken=${accessToken}&refreshToken=${refreshToken}&provider=google&oauth_success=true`
     );
@@ -544,6 +543,8 @@ export const githubAuth = passport.authenticate('github', {
 // @route   GET /api/auth/github/callback
 // @access  Public
 export const githubAuthCallback = (req: Request, res: Response): void => {
+  const frontendUrl = process.env.FRONTEND_URL || (process.env.NODE_ENV === 'production' ? 'https://app-buida-fe.vercel.app' : 'http://localhost:3000');
+  
   passport.authenticate('github', { session: false }, (err: any, user: any, info: any) => {
     if (err) {
       logger.error('GitHub OAuth error:', {
@@ -552,8 +553,6 @@ export const githubAuthCallback = (req: Request, res: Response): void => {
         userAgent: req.get('User-Agent'),
         ip: req.ip,
       });
-
-      const frontendUrl = process.env.FRONTEND_URL || (process.env.NODE_ENV === 'production' ? 'https://app-buida-fe.vercel.app' : 'http://localhost:3000');
       
       // Handle specific OAuth errors
       if (err.message?.includes('access_denied')) {
@@ -602,7 +601,6 @@ export const githubAuthCallback = (req: Request, res: Response): void => {
     });
 
     // Redirect to auth callback (frontend will handle token storage and redirect)
-    const frontendUrl = process.env.FRONTEND_URL || (process.env.NODE_ENV === 'production' ? 'https://app-buida-fe.vercel.app' : 'http://localhost:3000');
     res.redirect(
       `${frontendUrl}/auth/callback?accessToken=${accessToken}&refreshToken=${refreshToken}&provider=github&oauth_success=true`
     );
