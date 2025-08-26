@@ -7,7 +7,7 @@ services:
     plan: starter # or 'free' for free tier
     region: oregon # choose your preferred region
     branch: main
-    healthCheckPath: /api/health # adjust if you have a health endpoint
+    healthCheckPath: /health
     envVars:
       - key: NODE_ENV
         value: production
