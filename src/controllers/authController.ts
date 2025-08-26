@@ -482,21 +482,23 @@ export const googleAuthCallback = (req: Request, res: Response): void => {
         ip: req.ip,
       });
 
+      const frontendUrl = process.env.FRONTEND_URL || (process.env.NODE_ENV === 'production' ? 'https://app-buida-fe.vercel.app' : 'http://localhost:3000');
+      
       // Handle specific OAuth errors
       if (err.message?.includes('access_denied')) {
-        return res.redirect(`${process.env.FRONTEND_URL}/auth/cancelled?provider=google`);
+        return res.redirect(`${frontendUrl}/auth/cancelled?provider=google`);
       }
       
       if (err.message?.includes('invalid_grant')) {
-        return res.redirect(`${process.env.FRONTEND_URL}/login?error=oauth_invalid_grant&provider=google`);
+        return res.redirect(`${frontendUrl}/login?error=oauth_invalid_grant&provider=google`);
       }
 
       if (err.message?.includes('network')) {
-        return res.redirect(`${process.env.FRONTEND_URL}/login?error=oauth_network_error&provider=google`);
+        return res.redirect(`${frontendUrl}/login?error=oauth_network_error&provider=google`);
       }
 
       // Generic OAuth error
-      return res.redirect(`${process.env.FRONTEND_URL}/login?error=oauth_failed&provider=google&message=${encodeURIComponent(err.message)}`);
+      return res.redirect(`${frontendUrl}/login?error=oauth_failed&provider=google&message=${encodeURIComponent(err.message)}`);
     }
 
     if (!user) {
@@ -505,13 +507,13 @@ export const googleAuthCallback = (req: Request, res: Response): void => {
         userAgent: req.get('User-Agent'),
         ip: req.ip,
       });
-      return res.redirect(`${process.env.FRONTEND_URL}/auth/cancelled?provider=google`);
+      return res.redirect(`${frontendUrl}/auth/cancelled?provider=google`);
     }
 
     // Check if user account is properly created/retrieved
     if (!user._id) {
       logger.error('Google OAuth: User object missing _id', { user });
-      return res.redirect(`${process.env.FRONTEND_URL}/login?error=oauth_user_creation_failed&provider=google`);
+      return res.redirect(`${frontendUrl}/login?error=oauth_user_creation_failed&provider=google`);
     }
 
     const accessToken = generateAccessToken(user);
@@ -524,8 +526,9 @@ export const googleAuthCallback = (req: Request, res: Response): void => {
     });
 
     // Redirect to auth callback (frontend will handle token storage and redirect)
+    const frontendUrl = process.env.FRONTEND_URL || (process.env.NODE_ENV === 'production' ? 'https://app-buida-fe.vercel.app' : 'http://localhost:3000');
     res.redirect(
-      `${process.env.FRONTEND_URL}/auth/callback?accessToken=${accessToken}&refreshToken=${refreshToken}&provider=google&oauth_success=true`
+      `${frontendUrl}/auth/callback?accessToken=${accessToken}&refreshToken=${refreshToken}&provider=google&oauth_success=true`
     );
   })(req, res);
 };
@@ -550,26 +553,28 @@ export const githubAuthCallback = (req: Request, res: Response): void => {
         ip: req.ip,
       });
 
+      const frontendUrl = process.env.FRONTEND_URL || (process.env.NODE_ENV === 'production' ? 'https://app-buida-fe.vercel.app' : 'http://localhost:3000');
+      
       // Handle specific OAuth errors
       if (err.message?.includes('access_denied')) {
-        return res.redirect(`${process.env.FRONTEND_URL}/auth/cancelled?provider=github`);
+        return res.redirect(`${frontendUrl}/auth/cancelled?provider=github`);
       }
       
       if (err.message?.includes('invalid_grant')) {
-        return res.redirect(`${process.env.FRONTEND_URL}/login?error=oauth_invalid_grant&provider=github`);
+        return res.redirect(`${frontendUrl}/login?error=oauth_invalid_grant&provider=github`);
       }
 
       if (err.message?.includes('network')) {
-        return res.redirect(`${process.env.FRONTEND_URL}/login?error=oauth_network_error&provider=github`);
+        return res.redirect(`${frontendUrl}/login?error=oauth_network_error&provider=github`);
       }
 
       // Handle GitHub-specific errors
       if (err.message?.includes('bad_verification_code')) {
-        return res.redirect(`${process.env.FRONTEND_URL}/login?error=oauth_bad_verification_code&provider=github`);
+        return res.redirect(`${frontendUrl}/login?error=oauth_bad_verification_code&provider=github`);
       }
 
       // Generic OAuth error
-      return res.redirect(`${process.env.FRONTEND_URL}/login?error=oauth_failed&provider=github&message=${encodeURIComponent(err.message)}`);
+      return res.redirect(`${frontendUrl}/login?error=oauth_failed&provider=github&message=${encodeURIComponent(err.message)}`);
     }
 
     if (!user) {
@@ -578,13 +583,13 @@ export const githubAuthCallback = (req: Request, res: Response): void => {
         userAgent: req.get('User-Agent'),
         ip: req.ip,
       });
-      return res.redirect(`${process.env.FRONTEND_URL}/auth/cancelled?provider=github`);
+      return res.redirect(`${frontendUrl}/auth/cancelled?provider=github`);
     }
 
     // Check if user account is properly created/retrieved
     if (!user._id) {
       logger.error('GitHub OAuth: User object missing _id', { user });
-      return res.redirect(`${process.env.FRONTEND_URL}/login?error=oauth_user_creation_failed&provider=github`);
+      return res.redirect(`${frontendUrl}/login?error=oauth_user_creation_failed&provider=github`);
     }
 
     const accessToken = generateAccessToken(user);
@@ -597,8 +602,9 @@ export const githubAuthCallback = (req: Request, res: Response): void => {
     });
 
     // Redirect to auth callback (frontend will handle token storage and redirect)
+    const frontendUrl = process.env.FRONTEND_URL || (process.env.NODE_ENV === 'production' ? 'https://app-buida-fe.vercel.app' : 'http://localhost:3000');
     res.redirect(
-      `${process.env.FRONTEND_URL}/auth/callback?accessToken=${accessToken}&refreshToken=${refreshToken}&provider=github&oauth_success=true`
+      `${frontendUrl}/auth/callback?accessToken=${accessToken}&refreshToken=${refreshToken}&provider=github&oauth_success=true`
     );
   })(req, res);
 };
