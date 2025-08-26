@@ -523,9 +523,9 @@ export const googleAuthCallback = (req: Request, res: Response): void => {
       provider: 'google',
     });
 
-    // Redirect to app (no role selection needed for AI App Builder)
+    // Redirect to auth callback (frontend will handle token storage and redirect)
     res.redirect(
-      `${process.env.FRONTEND_URL}/app?accessToken=${accessToken}&refreshToken=${refreshToken}&provider=google&oauth_success=true`
+      `${process.env.FRONTEND_URL}/auth/callback?accessToken=${accessToken}&refreshToken=${refreshToken}&provider=google&oauth_success=true`
     );
   })(req, res);
 };
@@ -596,9 +596,9 @@ export const githubAuthCallback = (req: Request, res: Response): void => {
       provider: 'github',
     });
 
-    // Redirect to app (no role selection needed for AI App Builder)
+    // Redirect to auth callback (frontend will handle token storage and redirect)
     res.redirect(
-      `${process.env.FRONTEND_URL}/app?accessToken=${accessToken}&refreshToken=${refreshToken}&provider=github&oauth_success=true`
+      `${process.env.FRONTEND_URL}/auth/callback?accessToken=${accessToken}&refreshToken=${refreshToken}&provider=github&oauth_success=true`
     );
   })(req, res);
 };
